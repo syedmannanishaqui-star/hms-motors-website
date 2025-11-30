@@ -353,6 +353,167 @@
             margin-top: 20px;
         }
 
+        /* Bill Preview Styles */
+        .bill-preview {
+            background: #fff;
+            color: #000;
+            padding: 40px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .bill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #dc143c;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .bill-logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bill-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+        }
+
+        .bill-company-info h2 {
+            color: #dc143c;
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .bill-company-info p {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .bill-number {
+            text-align: right;
+        }
+
+        .bill-number h3 {
+            color: #dc143c;
+            font-size: 1.5em;
+        }
+
+        .bill-details {
+            margin: 30px 0;
+        }
+
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .bill-row strong {
+            color: #333;
+        }
+
+        .bill-total {
+            background: #f5f5f5;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 8px;
+            border-left: 5px solid #dc143c;
+        }
+
+        .bill-total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #dc143c;
+        }
+
+        .bill-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+
+        .bill-qr {
+            text-align: center;
+        }
+
+        .bill-qr img {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #dc143c;
+            border-radius: 10px;
+        }
+
+        .bill-qr p {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #dc143c;
+        }
+
+        .bill-contact {
+            text-align: right;
+        }
+
+        .bill-contact p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .bill-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .bill-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .download-btn {
+            background: #4CAF50;
+            color: #fff;
+        }
+
+        .download-btn:hover {
+            background: #45a049;
+        }
+
+        .email-btn {
+            background: #2196F3;
+            color: #fff;
+        }
+
+        .email-btn:hover {
+            background: #0b7dda;
+        }
+
+        .print-btn {
+            background: #ff9800;
+            color: #fff;
+        }
+
+        .print-btn:hover {
+            background: #e68900;
+        }
+
         /* Footer */
         footer {
             background: #000;
@@ -362,6 +523,24 @@
 
         footer p {
             font-size: 1.1em;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .bill-preview, .bill-preview * {
+                visibility: visible;
+            }
+            .bill-preview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .bill-actions {
+                display: none;
+            }
         }
 
         @media (max-width: 768px) {
@@ -376,6 +555,25 @@
             
             .logo-text h1 {
                 font-size: 1.8em;
+            }
+
+            .bill-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .bill-number {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            .bill-footer {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .bill-contact {
+                text-align: center;
             }
         }
     </style>
@@ -590,6 +788,14 @@
                         <input type="text" id="billCustName" required>
                     </div>
                     <div class="form-group">
+                        <label>Customer Phone *</label>
+                        <input type="tel" id="billCustPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Customer Email</label>
+                        <input type="email" id="billCustEmail">
+                    </div>
+                    <div class="form-group">
                         <label>Bike Model *</label>
                         <input type="text" id="billBikeModel" required>
                     </div>
@@ -605,17 +811,93 @@
                 </form>
             </div>
 
-            <div class="qr-section">
+            <!-- Bill Preview -->
+            <div id="billPreviewSection" style="display:none;">
+                <div class="bill-preview" id="billContent">
+                    <div class="bill-header">
+                        <div class="bill-logo-section">
+                            <img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/7099ba9c-dbf4-43aa-9414-72b369fccd7a/2025-11-30T06-37-23-212Z-92991fb5-chat-image-1764484643193-1.jpeg.jpg" alt="HMS MOTORS" class="bill-logo">
+                            <div class="bill-company-info">
+                                <h2>HMS MOTORS</h2>
+                                <p>Expert Bike Repair Services</p>
+                                <p>30 Years of Excellence</p>
+                            </div>
+                        </div>
+                        <div class="bill-number">
+                            <h3>INVOICE</h3>
+                            <p id="billNo">Bill #: <span></span></p>
+                            <p id="billDate">Date: <span></span></p>
+                        </div>
+                    </div>
+
+                    <div class="bill-details">
+                        <h3 style="color: #dc143c; margin-bottom: 15px;">Customer Details</h3>
+                        <div class="bill-row">
+                            <strong>Name:</strong>
+                            <span id="displayCustName"></span>
+                        </div>
+                        <div class="bill-row">
+                            <strong>Phone:</strong>
+                            <span id="displayCustPhone"></span>
+                        </div>
+                        <div class="bill-row">
+                            <strong>Email:</strong>
+                            <span id="displayCustEmail"></span>
+                        </div>
+                    </div>
+
+                    <div class="bill-details">
+                        <h3 style="color: #dc143c; margin-bottom: 15px;">Service Details</h3>
+                        <div class="bill-row">
+                            <strong>Bike Model:</strong>
+                            <span id="displayBikeModel"></span>
+                        </div>
+                        <div class="bill-row">
+                            <strong>Service:</strong>
+                            <span id="displayServiceDetails"></span>
+                        </div>
+                    </div>
+
+                    <div class="bill-total">
+                        <div class="bill-total-row">
+                            <span>TOTAL AMOUNT:</span>
+                            <span id="displayAmount"></span>
+                        </div>
+                    </div>
+
+                    <div class="bill-footer">
+                        <div class="bill-qr">
+                            <img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/7099ba9c-dbf4-43aa-9414-72b369fccd7a/2025-11-30T07-01-43-776Z-99c6d82d-chat-image-1764486103737-0.jpeg.jpg" alt="Payment QR Code">
+                            <p>Scan to Pay via PhonePe</p>
+                        </div>
+                        <div class="bill-contact">
+                            <p><strong>Contact Us:</strong></p>
+                            <p>Suhel Sharif: 9886951220</p>
+                            <p>Ashran: 9945534032</p>
+                            <p>Email: hmsmotors0@gmail.com</p>
+                            <p style="margin-top: 20px; font-style: italic;">Thank you for choosing HMS MOTORS!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bill-actions">
+                    <button class="print-btn" onclick="printBill()">🖨️ Print Bill</button>
+                    <button class="download-btn" onclick="downloadBill()">📥 Download PDF</button>
+                    <button class="email-btn" onclick="emailBill()">📧 Email to Customer</button>
+                </div>
+            </div>
+
+            <div class="qr-section" style="margin-top: 30px;">
                 <h3 style="color: #dc143c; margin-bottom: 20px;">Payment QR Code</h3>
                 <p style="margin-bottom: 20px;">Scan to pay via PhonePe</p>
-                <img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/7099ba9c-dbf4-43aa-9414-72b369fccd7a/2025-11-30T06-37-23-030Z-5f5a7c06-chat-image-1764484643011-0.jpeg.jpg" alt="PhonePe QR Code" class="qr-code">
-                <p style="margin-top: 20px;"><strong>Suhail Pasha</strong><br>+91 9886951220</p>
+                <img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/7099ba9c-dbf4-43aa-9414-72b369fccd7a/2025-11-30T07-01-43-776Z-99c6d82d-chat-image-1764486103737-0.jpeg.jpg" alt="PhonePe QR Code" class="qr-code">
             </div>
 
             <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script>
         let customerData = {};
 
@@ -662,7 +944,6 @@
             const username = document.getElementById('ownerUsername').value;
             const password = document.getElementById('ownerPassword').value;
             
-            // Simple authentication (in production, use proper backend authentication)
             if (username === 'hmsmotors' && password === 'hms@2025') {
                 closeLoginModal();
                 document.querySelector('header').style.display = 'none';
@@ -689,7 +970,6 @@
                 preferredDate: document.getElementById('preferredDate').value
             };
 
-            // Send email notification (using mailto for simplicity)
             const subject = encodeURIComponent('New Service Booking - HMS MOTORS');
             const body = encodeURIComponent(
                 `New Service Booking Details:\n\n` +
@@ -716,14 +996,79 @@
             
             const billData = {
                 customerName: document.getElementById('billCustName').value,
+                customerPhone: document.getElementById('billCustPhone').value,
+                customerEmail: document.getElementById('billCustEmail').value,
                 bikeModel: document.getElementById('billBikeModel').value,
                 serviceDetails: document.getElementById('billServiceDetails').value,
                 amount: document.getElementById('billAmount').value
             };
 
-            alert(`Bill Generated!\n\nCustomer: ${billData.customerName}\nBike: ${billData.bikeModel}\nAmount: ₹${billData.amount}\n\nPlease show the QR code for payment.`);
-            this.reset();
+            // Generate bill number and date
+            const billNumber = 'HMS' + Date.now().toString().slice(-6);
+            const billDate = new Date().toLocaleDateString('en-IN');
+
+            // Display bill
+            document.getElementById('billNo').querySelector('span').textContent = billNumber;
+            document.getElementById('billDate').querySelector('span').textContent = billDate;
+            document.getElementById('displayCustName').textContent = billData.customerName;
+            document.getElementById('displayCustPhone').textContent = billData.customerPhone;
+            document.getElementById('displayCustEmail').textContent = billData.customerEmail || 'N/A';
+            document.getElementById('displayBikeModel').textContent = billData.bikeModel;
+            document.getElementById('displayServiceDetails').textContent = billData.serviceDetails;
+            document.getElementById('displayAmount').textContent = '₹' + billData.amount;
+
+            document.getElementById('billPreviewSection').style.display = 'block';
+            document.getElementById('billPreviewSection').scrollIntoView({ behavior: 'smooth' });
         });
+
+        function printBill() {
+            window.print();
+        }
+
+        function downloadBill() {
+            const element = document.getElementById('billContent');
+            const opt = {
+                margin: 10,
+                filename: 'HMS_MOTORS_Bill_' + Date.now() + '.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function emailBill() {
+            const custEmail = document.getElementById('billCustEmail').value;
+            const custName = document.getElementById('displayCustName').textContent;
+            const amount = document.getElementById('displayAmount').textContent;
+            const billNo = document.getElementById('billNo').querySelector('span').textContent;
+            
+            if (!custEmail) {
+                alert('Please enter customer email in the billing form to send the bill.');
+                return;
+            }
+
+            const subject = encodeURIComponent(`HMS MOTORS - Invoice ${billNo}`);
+            const body = encodeURIComponent(
+                `Dear ${custName},\n\n` +
+                `Thank you for choosing HMS MOTORS!\n\n` +
+                `Your bill details:\n` +
+                `Invoice Number: ${billNo}\n` +
+                `Amount: ${amount}\n\n` +
+                `Please find the attached bill or visit our shop for a printed copy.\n\n` +
+                `You can pay via PhonePe by scanning the QR code on the bill.\n\n` +
+                `Contact us:\n` +
+                `Suhel Sharif: 9886951220\n` +
+                `Ashran: 9945534032\n` +
+                `Email: hmsmotors0@gmail.com\n\n` +
+                `Thank you for your business!\n\n` +
+                `Best regards,\n` +
+                `HMS MOTORS Team`
+            );
+            
+            window.location.href = `mailto:${custEmail}?subject=${subject}&body=${body}`;
+            alert('Email client opened. Please attach the downloaded PDF bill and send.');
+        }
 
         function logout() {
             document.querySelector('header').style.display = 'block';
@@ -731,9 +1076,10 @@
             document.querySelector('.services').style.display = 'block';
             document.querySelector('.contact').style.display = 'block';
             document.getElementById('ownerDashboard').style.display = 'none';
+            document.getElementById('billPreviewSection').style.display = 'none';
+            document.getElementById('billingForm').reset();
         }
 
-        // Close modal when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('loginModal');
             if (event.target == modal) {
